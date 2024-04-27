@@ -3,6 +3,7 @@ int main()
 {
     int size, index, count, wordIndex;
     char alpha [6][5] = {{'A','B','C','D','E'},{'F','G','H','I','J'},{'K','L','M','N','O'},{'P','Q','R','S','T'},{'U','V','W','X'},{'Y','Z'}};
+    printf("\n");
     printf("Think a word and I will try to guess it\n");
     printf("Just answer the following questions with reference to this lines \n");
     printf("\n");
