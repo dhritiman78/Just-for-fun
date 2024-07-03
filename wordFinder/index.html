@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Guessing Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .line {
+            margin: 10px 0;
+        }
+        .hidden {
+            display: none;
+        }
+        .selected-line {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Think of a word and I will try to guess it</h1>
+    <p>Just answer the following questions with reference to these lines:</p>
+    <div id="lines">
+        <div class="line" id="line1">Line no. 1: A B C D E</div>
+        <div class="line" id="line2">Line no. 2: F G H I J</div>
+        <div class="line" id="line3">Line no. 3: K L M N O</div>
+        <div class="line" id="line4">Line no. 4: P Q R S T</div>
+        <div class="line" id="line5">Line no. 5: U V W X Y</div>
+        <div class="line" id="line6">Line no. 6: Z</div>
+    </div>
+
+    <form id="wordForm">
+        <label for="wordLength">Enter the number of letters in the word: </label>
+        <input type="number" id="wordLength" name="wordLength" min="1" required>
+        <button type="button" onclick="nextStep()">Next</button>
+    </form>
+
+    <form id="lineForm" class="hidden">
+        <div id="lineInputs"></div>
+        <button type="button" onclick="showSelectedLines()">Next</button>
+    </form>
+
+    <form id="letterForm" class="hidden">
+        <div id="letterInputs"></div>
+        <button type="button" onclick="revealWord()">Reveal Word</button>
+    </form>
+
+    <h2 id="result" class="hidden">The word is: <span id="guessedWord"></span></h2>
+
+    <script src="script.js"></script>
+</body>
+</html>
