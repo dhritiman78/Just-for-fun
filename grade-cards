@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Get Grade Cards</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background-color: #f9f9f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      text-align: center;
+      background-color: #ffffff;
+      padding: 20px 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    label {
+      font-size: 1rem;
+      color: #555;
+    }
+
+    input {
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #4caf50;
+      box-shadow: 0 0 5px rgba(76, 175, 80, 0.4);
+    }
+
+    button {
+      padding: 10px 15px;
+      background-color: #4caf50;
+      color: #ffffff;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .footer {
+      margin-top: 20px;
+      font-size: 0.9rem;
+      color: #777;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      .container {
+        padding: 20px 20px;
+      }
+
+      button {
+        font-size: 0.9rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      label {
+        font-size: 0.9rem;
+      }
+
+      input {
+        font-size: 0.9rem;
+        padding: 8px;
+      }
+
+      button {
+        font-size: 0.8rem;
+        padding: 8px 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Get Your Grade Card</h1>
+    <form>
+      <label for="roll">Enter your Roll Number</label>
+      <input type="text" name="roll" id="roll" placeholder="e.g., 123456" required>
+      <button id="btn" type="submit">Get Grade</button>
+    </form>
+    <div class="footer">Powered by <strong>Your University</strong></div>
+  </div>
+  <script>
+    let btn = document.getElementById('btn');
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      let roll = document.getElementById('roll').value;
+      let url = `http://agnee.tezu.ernet.in:8019/phpcrudajax/student/temFiles/${roll}.pdf`;
+      window.location.href = url;
+    });
+  </script>
+</body>
+</html>
