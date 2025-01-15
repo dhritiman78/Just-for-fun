@@ -131,7 +131,7 @@
     let btn = document.getElementById('btn');
     btn.addEventListener('click', (e) => {
       e.preventDefault();
-      let roll = document.getElementById('roll').value;
+      let roll = (document.getElementById('roll').value).trim();
       let url = `http://agnee.tezu.ernet.in:8019/phpcrudajax/student/temFiles/${roll}.pdf`;
       window.location.href = url;
     });
