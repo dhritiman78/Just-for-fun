@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Ghibli Art Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f7f0e7;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+        }
+        .hidden {
+            display: none;
+        }
+        .loading {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        #result {
+            font-size: 24px;
+            font-weight: bold;
+            color: red;
+        }
+        input[type="file"] {
+            padding: 10px;
+            border: 2px dashed #ccc;
+            border-radius: 5px;
+            display: block;
+            width: 100%;
+            cursor: pointer;
+            background: #f9f9f9;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .progress-container {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-top: 10px;
+            display: none;
+        }
+        .progress-bar {
+            height: 10px;
+            width: 0;
+            background-color: #007bff;
+            border-radius: 5px;
+            transition: width 0.1s;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #555;
+        }
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+            button {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>AI Ghibli Art Generator</h2>
+        <input type="file" id="imageInput" accept="image/*"><br>
+        <button onclick="startGeneration()">Generate</button>
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <p id="loading" class="hidden loading">Generating... Please wait</p>
+        <p id="result" class="hidden">April Fool! 😝</p>
+    </div>
+    <p class="footer">Made with ❤️ by Dhritiman Saikia</p>
+    <script>
+        function startGeneration() {
+            const imageInput = document.getElementById('imageInput');
+            const loadingText = document.getElementById('loading');
+            const resultText = document.getElementById('result');
+            const progressBar = document.getElementById('progressBar');
+            const progressContainer = document.getElementById('progressContainer');
+            
+            if (imageInput.files.length === 0) {
+                alert("Please upload an image first!");
+                return;
+            }
+            
+            loadingText.classList.remove('hidden');
+            resultText.classList.add('hidden');
+            progressContainer.style.display = 'block';
+            progressBar.style.width = '0%';
+            
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 10;
+                progressBar.style.width = progress + '%';
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        loadingText.classList.add('hidden');
+                        resultText.classList.remove('hidden');
+                        progressContainer.style.display = 'none';
+                    }, 500);
+                }
+            }, 500);
+        }
+    </script>
+</body>
+</html>
