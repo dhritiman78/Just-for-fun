@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Get Result</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Base styles */
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f3f4f6; /* Equivalent to bg-gray-100 */
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem; /* Equivalent to p-4 */
+      position: relative; /* For the pseudo-element background */
+      box-sizing: border-box; /* Ensure padding doesn't add to total width/height */
+    }
+
+    /* Custom styles for subtle background pattern */
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, #e5e7eb 25%, transparent 25%, transparent 75%, #e5e7eb 75%, #e5e7eb),
+                  linear-gradient(45deg, #e5e7eb 25%, transparent 25%, transparent 75%, #e5e7eb 75%, #e5e7eb);
+      background-size: 60px 60px;
+      background-position: 0 0, 30px 30px;
+      opacity: 0.3;
+      z-index: -1;
+    }
+
+    /* Navbar styles */
+    .navbar {
+      width: 100%;
+      background-color: #ffffff;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border-bottom-left-radius: 0.5rem;
+      border-bottom-right-radius: 0.5rem;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 50;
+    }
+
+    .navbar-container {
+      max-width: 1280px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar-brand {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #2563eb;
+    }
+
+    .navbar-links {
+      display: none; /* Hidden by default for mobile */
+      gap: 1.5rem;
+    }
+
+    .navbar-links a {
+      color: #374151;
+      font-weight: 500;
+      transition: color 200ms ease-in-out;
+      text-decoration: none;
+    }
+
+    .navbar-links a:hover {
+      color: #2563eb;
+    }
+
+    .mobile-menu-button {
+      display: block; /* Shown by default for mobile */
+      color: #374151;
+      transition: color 200ms ease-in-out;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .mobile-menu-button:hover {
+      color: #2563eb;
+    }
+
+    .mobile-menu-button svg {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+
+    .mobile-menu {
+      display: none; /* Hidden by default, will be toggled by JS */
+      background-color: #ffffff;
+      padding-left: 1rem;
+      padding-right: 1rem;
+      padding-bottom: 1rem;
+      border-bottom-left-radius: 0.5rem;
+      border-bottom-right-radius: 0.5rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .mobile-menu.mobile-menu-show {
+      display: block; /* Show when this class is active */
+    }
+
+    .mobile-menu a {
+      display: block;
+      padding: 0.5rem 0;
+      color: #374151;
+      font-weight: 500;
+      transition: color 200ms ease-in-out;
+      text-decoration: none;
+    }
+
+    .mobile-menu a:hover {
+      color: #2563eb;
+    }
+
+    /* Main Content Card styles */
+    .main-card {
+      background-color: #ffffff;
+      padding: 2rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+      max-width: 24rem;
+      width: 100%;
+      margin-top: 6rem; /* Space for fixed navbar on mobile */
+      transform: scale(1);
+      transition: transform 300ms ease-in-out;
+      box-sizing: border-box; /* Ensure padding doesn't add to total width/height */
+    }
+
+    .main-card:hover {
+      transform: scale(1.02); /* Slightly less aggressive hover for better feel */
+    }
+
+    .card-title {
+      text-align: center;
+      font-size: 1.875rem;
+      font-weight: 800;
+      color: #1f2937;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-subtitle {
+      text-align: center;
+      color: #4b5563;
+      margin-bottom: 1.5rem;
+      font-size: 0.875rem;
+    }
+
+    .input-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .input-label {
+      display: block;
+      color: #374151;
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 0.75rem 1rem; /* Increased padding for better touch target */
+      border: 1px solid #d1d5db;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      color: #1f2937;
+      outline: none;
+      transition: border-color 200ms ease-in-out, box-shadow 200ms ease-in-out;
+      box-sizing: border-box; /* Ensure padding doesn't add to total width */
+    }
+
+    .input-field:focus {
+      border-color: transparent;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5); /* Increased ring size */
+    }
+
+    .error-message {
+      color: #ef4444;
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+      display: none; /* Hidden by default */
+    }
+
+    .input-field.error {
+      border-color: #ef4444; /* Highlight input border with red */
+    }
+
+    .button-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .button {
+      width: 100%;
+      padding: 0.875rem 1.5rem; /* Slightly larger buttons */
+      border-radius: 0.5rem;
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 1.125rem;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transform: translateY(0);
+      transition: transform 300ms ease-in-out, box-shadow 300ms ease-in-out, background-color 300ms ease-in-out;
+      outline: none;
+    }
+
+    .button:hover {
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      transform: translateY(-0.125rem); /* Slightly less aggressive lift */
+    }
+
+    .button:focus {
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+    }
+
+    .button.blue {
+      background-image: linear-gradient(to right, #3b82f6, #2563eb);
+    }
+
+    .button.blue:hover {
+      background-image: linear-gradient(to right, #2563eb, #1d4ed8);
+    }
+
+    .button.green {
+      background-image: linear-gradient(to right, #22c55e, #16a34a);
+    }
+
+    .button.green:hover {
+      background-image: linear-gradient(to right, #16a34a, #15803d);
+    }
+
+    /* Custom Alert Modal styles */
+    .custom-alert-modal {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(17, 24, 39, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100; /* Higher z-index for modal */
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .custom-alert-modal.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .custom-alert-content {
+      background-color: #ffffff;
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+      max-width: 24rem;
+      width: 90%; /* Make it slightly narrower on small screens */
+      transform: scale(0.95);
+      opacity: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      box-sizing: border-box;
+    }
+
+    .custom-alert-modal.show .custom-alert-content {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    .alert-title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 1rem;
+    }
+
+    .alert-message-text {
+      color: #374151;
+      margin-bottom: 1.5rem;
+    }
+
+    .alert-button {
+      width: 100%;
+      padding: 0.625rem 1rem; /* Slightly larger padding for alert button */
+      background-color: #2563eb;
+      color: #ffffff;
+      border-radius: 0.375rem;
+      border: none;
+      cursor: pointer;
+      transition: background-color 200ms ease-in-out;
+    }
+
+    .alert-button:hover {
+      background-color: #1d4ed8;
+    }
+
+    /* Responsive adjustments */
+    @media (min-width: 768px) { /* Equivalent to md breakpoint */
+      .navbar-links {
+        display: flex; /* Show for desktop */
+      }
+      .mobile-menu-button {
+        display: none; /* Hide for desktop */
+      }
+      .mobile-menu {
+        display: none; /* Ensure hidden on desktop */
+      }
+      .main-card {
+        margin-top: 0; /* Remove top margin on desktop as navbar is not pushing content */
+        padding: 2.5rem; /* Equivalent to md:p-10 */
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <div class="navbar-brand">
+        Grade Portal
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content Card -->
+  <div class="main-card">
+    <h1 class="card-title">Get Your Grades</h1>
+    <p class="card-subtitle">Only for batches admitted before 2024</p>
+    
+    <div class="input-group">
+      <label for="roll" class="input-label">Enter your roll number:</label>
+      <input 
+        type="text" 
+        id="roll" 
+        name="roll" 
+        required 
+        class="input-field"
+        placeholder="e.g., CSB23078"
+      >
+      <p id="error-message" class="error-message">Please enter your roll number.</p>
+    </div>
+
+    <div class="button-group">
+      <button 
+        onclick="fetchPDF('grade')" 
+        class="button blue"
+      >
+        Get Grade Card
+      </button>
+      <button 
+        onclick="fetchPDF('transcript')" 
+        class="button green"
+      >
+        Get Running Transcript
+      </button>
+    </div>
+  </div>
+
+  <!-- Custom Alert Modal -->
+  <div id="custom-alert-modal" class="custom-alert-modal">
+    <div class="custom-alert-content" id="custom-alert-content">
+      <h3 class="alert-title">Input Required</h3>
+      <p id="alert-message-text" class="alert-message-text">Please enter your roll number.</p>
+      <button onclick="closeCustomAlert()" class="alert-button">OK</button>
+    </div>
+  </div>
+
+  <script>
+    // Navbar mobile menu toggle
+    document.getElementById('mobile-menu-button').addEventListener('click', function() {
+      const mobileMenu = document.getElementById('mobile-menu');
+      mobileMenu.classList.toggle('mobile-menu-show');
+    });
+
+    // Function to show custom alert modal
+    function showCustomAlert(message) {
+      const modal = document.getElementById('custom-alert-modal');
+      const content = document.getElementById('custom-alert-content');
+      const messageText = document.getElementById('alert-message-text');
+      
+      messageText.textContent = message;
+      modal.classList.add('show');
+    }
+
+    // Function to close custom alert modal
+    function closeCustomAlert() {
+      const modal = document.getElementById('custom-alert-modal');
+      modal.classList.remove('show');
+    }
+
+    function fetchPDF(type) {
+      const rollInput = document.getElementById('roll');
+      const roll = rollInput.value.trim();
+      const errorMessage = document.getElementById('error-message');
+
+      if (!roll) {
+        errorMessage.style.display = 'block'; // Show error message
+        rollInput.classList.add('error'); // Add error class for red border
+        showCustomAlert("Please enter your roll number.");
+        return;
+      } else {
+        errorMessage.style.display = 'none'; // Hide error message
+        rollInput.classList.remove('error'); // Remove error class
+      }
+
+      let url = 'viewer.html?roll=' + encodeURIComponent(roll) + '&type=' + type;
+      window.location.href = url;
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PDF Viewer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Base styles */
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f3f4f6; /* Light gray background */
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-sizing: border-box; /* Include padding in element's total width and height */
+    }
+
+    /* Header styles */
+    .header {
+      width: 100%;
+      padding: 20px;
+      text-align: center;
+      background: linear-gradient(to right, #2563eb, #1d4ed8); /* Blue gradient */
+      color: white;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Subtle shadow */
+      position: sticky; /* Sticky header */
+      top: 0;
+      z-index: 10; /* Ensure header stays on top */
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
+    }
+
+    .header-title {
+      margin: 0;
+      font-size: 1.8rem; /* Larger title */
+      font-weight: 600;
+    }
+
+    /* PDF Container styles */
+    .pdf-container {
+      flex-grow: 1; /* Allows container to take up available space */
+      width: 100%;
+      max-width: 1000px; /* Max width for the PDF viewer */
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start; /* Align to top, not center vertically */
+      box-sizing: border-box;
+    }
+
+    .pdf-embed {
+      width: 100%;
+      height: 80vh; /* Use viewport height for better responsiveness */
+      min-height: 400px; /* Minimum height to ensure visibility on small screens */
+      border: none;
+      border-radius: 8px; /* Rounded corners for the embed */
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Deeper shadow for the PDF */
+      background-color: #ffffff; /* White background for the embed area */
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .header-title {
+        font-size: 1.5rem; /* Adjust title size for smaller screens */
+      }
+      .pdf-container {
+        padding: 10px; /* Reduce padding on smaller screens */
+      }
+      .pdf-embed {
+        height: 70vh; /* Adjust height for mobile */
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header {
+        padding: 15px;
+      }
+      .header-title {
+        font-size: 1.3rem;
+      }
+      .pdf-embed {
+        height: 60vh; /* Further adjust height for very small screens */
+        min-height: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h2 id="title" class="header-title">Loading PDF...</h2>
+  </div>
+
+  <div class="pdf-container">
+    <embed id="pdfEmbed" type="application/pdf" class="pdf-embed" />
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const roll = params.get('roll');
+    const type = params.get('type');
+    const titleElement = document.getElementById('title');
+    const pdfEmbedElement = document.getElementById('pdfEmbed');
+
+    if (!roll || !type) {
+      titleElement.innerText = "Invalid Request: Roll number or type missing.";
+      // Optionally hide the embed element or show a placeholder
+      pdfEmbedElement.style.display = 'none';
+    } else {
+      let url = '';
+      if (type === 'grade') {
+        url = `https://luxury-kitsune-d7e3f8.netlify.app/.netlify/functions/proxy-pdf?roll=${roll}&type=${type}`;
+        titleElement.innerText = `Grade Card for ${roll}`;
+      } else if (type === 'transcript') {
+        url = `https://luxury-kitsune-d7e3f8.netlify.app/.netlify/functions/proxy-pdf?roll=${roll}&type=${type}`;
+        titleElement.innerText = `Running Transcript for ${roll}`;
+      } else {
+        titleElement.innerText = "Invalid Request: Unknown document type.";
+        pdfEmbedElement.style.display = 'none';
+      }
+
+      if (url) {
+        pdfEmbedElement.src = url;
+      }
+    }
+  </script>
+
+</body>
+</html>
