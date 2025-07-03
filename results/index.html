@@ -423,7 +423,8 @@
         rollInput.classList.remove('error'); // Remove error class
       }
 
-      let url = 'viewer.html?roll=' + encodeURIComponent(roll) + '&type=' + type;
+    //   let url = 'viewer.html?roll=' + encodeURIComponent(roll) + '&type=' + type;
+    let url = `https://luxury-kitsune-d7e3f8.netlify.app/.netlify/functions/proxy-pdf?roll=${encodeURIComponent(roll)}&type=${type}`;
       window.location.href = url;
     }
   </script>
