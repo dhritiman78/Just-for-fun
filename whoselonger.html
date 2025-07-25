@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Whose Longer</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+  <nav class="bg-purple-600">
+    <ul class="overflow-auto text-white px-3 py-3 font-bold">
+      <li class="float-left"><h2>Whose Longer </h2></li>
+    </ul>
+  </nav>
+  <center>
+    <section class="mt-10 mx-12 p-3 border-soid border-2 bg-white">
+      <h1 class="font-bold text-lg underline py-2">Enter the first person's name</h1>
+      <input class="py-3 px-2 border-solid border-2" id="task1" type="text" placeholder="Enter here">
+      <h1 class="font-bold text-lg underline py-2">Enter the second person's name</h1>
+      <input class="py-3 px-2 border-solid border-2" id="task2" type="text" placeholder="Enter here">
+      <button class="py-1 px-2 m-3 bg-purple-600 text-white" onclick="give_result()">Check</button>
+    </section>
+  <center>
+
+  <script>
+    function give_result() {
+      let task1 = document.getElementById('task1').value;
+      let task2 = document.getElementById('task2').value;
+      let res1 = '';
+      let res2 = '';
+      const num = Math.floor(Math.random() * 2)
+      if (num == 0) {
+        res1 = task1;
+        res2 = task2;
+      }
+        else {
+          res1 = task2;
+          res2 = task1;
+      }
+      
+      
+      let final = res1+"'s dick is longer than " + res2;
+      alert(final);
+    }
+  </script>
+</body>
+</html>

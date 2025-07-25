@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Check gay</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+  <nav class="bg-purple-600">
+    <ul class="overflow-auto text-white px-3 py-3 font-bold">
+      <li class="float-left"><h2>Check Gay</h2></li>
+    </ul>
+  </nav>
+  <center>
+    <section class="mt-10 mx-12 p-3 border-soid border-2 bg-white">
+      <h1 class="font-bold text-lg underline py-2">Enter your name to check if you are a gay</h1>
+      <input class="py-3 px-2 border-solid border-2" id="task" type="text" placeholder="Enter here">
+      <button class="py-1 px-2 m-3 bg-purple-600 text-white" onclick="give_result()">Check</button>
+    </section>
+  <center>
+
+  <script>
+    function give_result() {
+      let task = document.getElementById('task').value;
+      let res = '';
+      if (Math.floor(Math.random() * 100) >= 50) {
+        res = " is a gay";
+      }
+       else {
+        res = " is not a gay";
+      }
+      
+      if(task == "Nava"){
+          res = " is a handsome boy";
+      }
+      else if (task=="Bidit" ||task=="Bidit " ||  task=="Vidit" || task=="Vidit "){
+          res = " is one and only truth in this materialistic world, He is the 11th AVATAAR";
+      }
+      else if(task=="Ankur"){
+          res = " is a gay";
+      }
+      let final = task + res;
+      alert(final);
+    }
+  </script>
+</body>
+</html>
