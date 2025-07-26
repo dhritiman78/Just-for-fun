@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dhritiman Saikia - Portfolio</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --accent: #2563eb;
+      --bg: #f9fafb;
+      --card: #ffffff;
+      --text: #111827;
+      --muted: #6b7280;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    header {
+      background-color: var(--primary);
+      color: white;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+    }
+
+    header p {
+      margin-top: 0.5rem;
+      font-size: 1.2rem;
+      color: #dbeafe;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      background-color: var(--accent);
+      padding: 0.75rem;
+    }
+
+    nav button {
+      background: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      margin: 0.25rem;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    nav button:hover {
+      background-color: #e0e7ff;
+    }
+
+    section {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .card {
+      background: var(--card);
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      margin-bottom: 2rem;
+    }
+
+    .card h2 {
+      margin-bottom: 1rem;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 0.5rem;
+    }
+
+    ul {
+      list-style-type: disc;
+      padding-left: 1.5rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background: #e5e7eb;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Dhritiman Saikia</h1>
+  <p>B.Tech, Tezpur University</p>
+  <p>Computer Operator | Mobile Operator | Code Deployment via Copy-Paste</p>
+</header>
+
+<nav>
+  <button onclick="showSection('intro')">Intro</button>
+  <button onclick="showSection('education')">Education</button>
+  <button onclick="showSection('experience')">Experience</button>
+  <button onclick="showSection('projects')">Projects</button>
+  <button onclick="showSection('skills')">Skills</button>
+</nav>
+
+<section id="content">
+  <div class="card" id="intro">
+    <h2>Intro</h2>
+    <p>Hello! I'm Dhritiman — a passionate B.Tech student at Tezpur University, aspiring to graduate (eventually) with grace and Google. With a strong foundation in turning devices on and off and unparalleled experience in copy-pasting code from AI tools, I strive to innovate with minimal effort. Welcome to the most honest portfolio on the internet.</p>
+  </div>
+
+  <div class="card" id="education" style="display:none;">
+    <h2>Education</h2>
+    <ul>
+      <li><strong>Tezpur University</strong><br>CGPA: It's humiliating<br>Pass Year: If God wants, then 2027</li>
+      <li><strong>AHSEC</strong><br>Percentage: Still humiliating<br>Pass Year: 2022</li>
+      <li><strong>SEBA</strong><br>Percentage: Aha! 81% (finally proud)<br>Pass Year: 2020</li>
+    </ul>
+  </div>
+
+  <div class="card" id="experience" style="display:none;">
+    <h2>Experience</h2>
+    <ul>
+      <li><strong>Intern – A Big Oil Company (Name Confidential) (2024)</strong><br>Role: Went to office, sat in AC, visited the coffee room for strategic gossips, had coffee, bonded with other interns, then returned to PG room for recovery from the hard day’s work. Truly corporate-ready.</li>
+      <li><strong>IT Disaster Intern – Computer Lab (20xx)</strong><br>Role: System Crash Tester<br>Achievement: Stopped a computer by pressing unknown keys. Teacher was not impressed.</li>
+      <li><strong>Disciplinary Action Specialist – School Murga Department (20xx)</strong><br>Role: Outdoor Murga Execution<br>Reason: Excessive socializing in class.</li>
+    </ul>
+  </div>
+
+  <div class="card" id="projects" style="display:none;">
+    <h2>Projects</h2>
+    <ul>
+      <li><strong>Gay Detecting Website</strong><br>Description: Asked ChatGPT for code. Copied. Pasted. Launched.<br>Tech Stack: ChatGPT, Gemini, Claude AI, VS Code</li>
+    </ul>
+  </div>
+
+  <div class="card" id="skills" style="display:none;">
+    <h2>Skills</h2>
+    <ul>
+      <li><strong>Full Stack:</strong> ChatGPT, Gemini, Claude AI, Stack Overflow</li>
+      <li><strong>Technical:</strong> Turning devices on/off, Copy-pasting, CTRL+C / CTRL+V expert</li>
+      <li><strong>Soft Skills:</strong> Excelling in last-minute project panic, Humor injection into boring tasks</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  &copy; 2025 Dhritiman Saikia | Portfolio built using top-tier AI recommendations ✨
+</footer>
+
+<script>
+  function showSection(sectionId) {
+    const sections = ["intro", "education", "experience", "projects", "skills"];
+    sections.forEach(id => {
+      document.getElementById(id).style.display = id === sectionId ? "block" : "none";
+    });
+  }
+</script>
+
+</body>
+</html>
