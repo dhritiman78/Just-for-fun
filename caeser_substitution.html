@@ -75,6 +75,7 @@
     </div>
     <button onclick="processText()">Compute</button>
     <h3>Output:</h3>
+    <button onclick="copyOutput()">Copy to Clipboard</button>
     <div class="output" id="output"></div>
 </div>
 
@@ -152,10 +153,9 @@ function decryption(cipher, key) {
     const rows = Math.ceil(cipher.length / keyLength);
     let grid = Array.from({length: rows}, () => Array(keyLength).fill(" "));
 
-    const sortedIdx = sortArray(key); // sorted column positions
+    const sortedIdx = sortArray(key);
 
     let pos = 0;
-    // Fill grid column-by-column in sorted order
     for (let col of sortedIdx) {
         for (let r = 0; r < rows; r++) {
             if (pos < cipher.length) {
@@ -164,11 +164,9 @@ function decryption(cipher, key) {
         }
     }
 
-    // Read row-wise to get Caesar-shifted message
     let shiftedMessage = grid.flat().join("").trimEnd();
     return caesarDecrypt(shiftedMessage);
 }
-
 
 // ================= MAIN PROCESS =================
 function processText() {
@@ -187,6 +185,20 @@ function processText() {
         result = decryption(text, key);
     }
     document.getElementById("output").textContent = result;
+}
+
+// ================= COPY TO CLIPBOARD =================
+function copyOutput() {
+    const outputText = document.getElementById("output").textContent;
+    if (!outputText.trim()) {
+        alert("No output to copy!");
+        return;
+    }
+    navigator.clipboard.writeText(outputText).then(() => {
+        alert("Copied to clipboard!");
+    }).catch(() => {
+        alert("Failed to copy!");
+    });
 }
 </script>
 
