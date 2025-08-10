@@ -101,12 +101,7 @@ function getKey() {
 (function checkKeyOnLoad() {
     let key = getKey();
     if (!key) {
-        key = prompt("Enter a key (no repeated characters):");
-        if (!key || /(.).*\1/.test(key)) {
-            alert("Invalid key. Please refresh and try again.");
-        } else {
-            localStorage.setItem("cipherKey", key);
-        }
+        localStorage.setItem("cipherKey", "tezpur");
     }
     document.getElementById("keyInput").value = getKey();
 })();
