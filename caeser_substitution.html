@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Key Substitution Encryption</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0; padding: 0;
+        background: #f4f6f8;
+        display: flex; flex-direction: column;
+        align-items: center;
+    }
+    .container {
+        width: 90%; max-width: 600px;
+        background: #fff;
+        margin-top: 20px; padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h1 { text-align: center; color: #333; }
+    textarea {
+        width: 100%; min-height: 120px;
+        padding: 10px; border-radius: 5px;
+        border: 1px solid #ccc;
+        resize: vertical;
+        font-size: 14px;
+    }
+    button {
+        background: #007BFF; color: white;
+        padding: 10px 15px; border: none;
+        border-radius: 5px; cursor: pointer;
+        margin: 5px;
+    }
+    button:hover { background: #0056b3; }
+    select, input {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 100%;
+        margin-top: 5px;
+    }
+    .output {
+        background: #f9f9f9;
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 5px;
+        min-height: 80px;
+        white-space: pre-wrap;
+        margin-top: 10px;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Key Substitution Encryption</h1>
+    <div>
+        <label>Current Key:</label>
+        <input type="text" id="keyInput" placeholder="Enter key (no repeated characters)">
+        <button onclick="setKey()">Set Key</button>
+    </div>
+    <hr>
+    <div>
+        <label>Mode:</label>
+        <select id="mode">
+            <option value="encrypt">Encrypt</option>
+            <option value="decrypt">Decrypt</option>
+        </select>
+    </div>
+    <div>
+        <label>Text:</label>
+        <textarea id="textInput"></textarea>
+    </div>
+    <button onclick="processText()">Compute</button>
+    <h3>Output:</h3>
+    <div class="output" id="output"></div>
+</div>
+
+<script>
+// ================= KEY STORAGE =================
+function setKey() {
+    const key = document.getElementById("keyInput").value.trim();
+    if (!key) {
+        alert("Key cannot be empty!");
+        return;
+    }
+    if (/(.).*\1/.test(key)) {
+        alert("Key must not have repeated characters!");
+        return;
+    }
+    localStorage.setItem("cipherKey", key);
+    alert("Key set successfully!");
+}
+
+function getKey() {
+    return localStorage.getItem("cipherKey") || "";
+}
+
+(function checkKeyOnLoad() {
+    let key = getKey();
+    if (!key) {
+        key = prompt("Enter a key (no repeated characters):");
+        if (!key || /(.).*\1/.test(key)) {
+            alert("Invalid key. Please refresh and try again.");
+        } else {
+            localStorage.setItem("cipherKey", key);
+        }
+    }
+    document.getElementById("keyInput").value = getKey();
+})();
+
+// ================= LOGIC HELPERS =================
+function caesarEncrypt(text, shift = 3) {
+    return text.split("").map(ch => String.fromCharCode(ch.charCodeAt(0) + shift)).join("");
+}
+function caesarDecrypt(text, shift = 3) {
+    return text.split("").map(ch => String.fromCharCode(ch.charCodeAt(0) - shift)).join("");
+}
+
+function sortArray(key) {
+    return [...key]
+        .map((char, idx) => ({char, idx}))
+        .sort((a, b) => a.char.localeCompare(b.char))
+        .map(obj => obj.idx);
+}
+function inverseOrder(order) {
+    let inv = new Array(order.length);
+    order.forEach((pos, i) => inv[pos] = i);
+    return inv;
+}
+
+// ================= ENCRYPT / DECRYPT =================
+function encryption(message, key) {
+    message = caesarEncrypt(message);
+    const keyLength = key.length;
+    const rows = Math.ceil(message.length / keyLength);
+    let grid = Array.from({length: rows}, () => Array(keyLength).fill(" "));
+
+    for (let i = 0; i < message.length; i++) {
+        grid[Math.floor(i / keyLength)][i % keyLength] = message[i];
+    }
+
+    let cipher = "";
+    const sortedIdx = sortArray(key);
+    for (let col of sortedIdx) {
+        for (let r = 0; r < rows; r++) {
+            cipher += grid[r][col];
+        }
+    }
+    return cipher;
+}
+
+function decryption(cipher, key) {
+    const keyLength = key.length;
+    const rows = Math.ceil(cipher.length / keyLength);
+    let grid = Array.from({length: rows}, () => Array(keyLength).fill(" "));
+
+    const sortedIdx = sortArray(key); // sorted column positions
+
+    let pos = 0;
+    // Fill grid column-by-column in sorted order
+    for (let col of sortedIdx) {
+        for (let r = 0; r < rows; r++) {
+            if (pos < cipher.length) {
+                grid[r][col] = cipher[pos++];
+            }
+        }
+    }
+
+    // Read row-wise to get Caesar-shifted message
+    let shiftedMessage = grid.flat().join("").trimEnd();
+    return caesarDecrypt(shiftedMessage);
+}
+
+
+// ================= MAIN PROCESS =================
+function processText() {
+    const mode = document.getElementById("mode").value;
+    const text = document.getElementById("textInput").value;
+    const key = getKey();
+    if (!key) {
+        alert("Please set a valid key first!");
+        return;
+    }
+
+    let result = "";
+    if (mode === "encrypt") {
+        result = encryption(text, key);
+    } else {
+        result = decryption(text, key);
+    }
+    document.getElementById("output").textContent = result;
+}
+</script>
+
+</body>
+</html>
