@@ -184,6 +184,7 @@ function processText() {
     } else {
         result = decryption(text, key);
     }
+    window.location.href = "#output"
     document.getElementById("output").textContent = result;
 }
 
