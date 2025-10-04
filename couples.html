@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Random Couple Generator ❤️</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #fce4ec, #f8bbd0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    h1 {
+      color: #e91e63;
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+      text-shadow: 1px 1px #fff;
+      text-align: center;
+    }
+
+    .container {
+      background: #ffffff;
+      padding: 40px 20px;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 420px;
+      width: 100%;
+    }
+
+    .names {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 2rem;
+      margin: 30px 0;
+    }
+
+    .name {
+      flex: 1;
+      text-align: center;
+      font-weight: 600;
+      padding: 0 10px;
+      word-break: break-word;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .heart {
+      width: 50px;
+      text-align: center;
+      font-size: 2.5rem;
+      color: #e91e63;
+      animation: pulse 1.2s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.4); opacity: 1; }
+      100% { transform: scale(1); opacity: 0.8; }
+    }
+
+    button {
+      background-color: #e91e63;
+      color: white;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 30px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-top: 20px;
+    }
+
+    button:hover {
+      background-color: #d81b60;
+    }
+
+    @media (max-width: 480px) {
+      .names {
+        flex-direction: column;
+        font-size: 1.6rem;
+        gap: 10px;
+      }
+
+      .heart {
+        font-size: 2rem;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      button {
+        font-size: 0.9rem;
+        padding: 12px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Random Couple Generator ❤️</h1>
+    <div class="names">
+      <div id="boy" class="name">👦</div>
+      <div class="heart">❤️</div>
+      <div id="girl" class="name">👧</div>
+    </div>
+    <button onclick="makeMatch()">Make Match 💘</button>
+  </div>
+
+  <script>
+    const boys = ["Nayanjyoti", "Anjan", "Amartya", "Dhritiman", "Ayushman", "Partha", "Prasurjya"];
+    const girls = ["Liza", "Sofia", "Parishmita", "Sushmita", "Khamseng", "Abhipriya"];
+
+    const boyEl = document.getElementById("boy");
+    const girlEl = document.getElementById("girl");
+
+    let boyInterval, girlInterval;
+
+    function makeMatch() {
+      let boyIndex = 0, girlIndex = 0;
+
+      clearInterval(boyInterval);
+      clearInterval(girlInterval);
+
+      boyInterval = setInterval(() => {
+        boyIndex = (boyIndex + 1) % boys.length;
+        boyEl.textContent = boys[boyIndex];
+      }, 100);
+
+      girlInterval = setInterval(() => {
+        girlIndex = (girlIndex + 1) % girls.length;
+        girlEl.textContent = girls[girlIndex];
+      }, 100);
+
+      const stopBoyIn = 2000 + Math.random() * 1000;
+      const stopGirlIn = 2500 + Math.random() * 1000;
+
+      setTimeout(() => {
+        clearInterval(boyInterval);
+        boyEl.textContent = boys[boyIndex];
+      }, stopBoyIn);
+
+      setTimeout(() => {
+        clearInterval(girlInterval);
+        girlEl.textContent = girls[girlIndex];
+      }, stopGirlIn);
+    }
+  </script>
+</body>
+</html>
